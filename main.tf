@@ -13,18 +13,33 @@ resource "aws_launch_configuration" "example" {
   image_id        = "ami-07dd19a7900a1f049"
   instance_type   = "t2.micro"
   security_groups = [aws_security_group.instance.id]
+  user_data = "${data.template_file.user_data.rendered}"
+  
 
-  user_data = <<-EOF
-              #!/bin/bash
-              echo "Alo presidente" > index.html
-              nohup busybox httpd -f -p ${var.server_port} &
-              EOF
+  #using file as alternative istead of below
+  # user_data =<<-EOF
+  #             #!/bin/bash
+  #              echo "Alo presidente" > index.html
+  #              nohup busybox httpd -f -p ${var.server_port} &
+  #              EOF
 
+####
 
   lifecycle {
     create_before_destroy = true
   }
 }
+data "template_file" "user_data" {
+    template = "${file("templates/user_data.tpl")}"
+}
+
+
+
+
+
+
+
+####
 
 resource "aws_autoscaling_group" "example" {
   launch_configuration = aws_launch_configuration.example.name
