@@ -16,7 +16,7 @@ resource "aws_launch_configuration" "example" {
   user_data = "${data.template_file.user_data.rendered}"
   
 
-  #using file as alternative istead of below
+  #using input file as alternative isntead of inline user data
   # user_data =<<-EOF
   #             #!/bin/bash
   #              echo "Alo presidente" > index.html
