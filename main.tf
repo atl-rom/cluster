@@ -20,8 +20,7 @@ resource "aws_launch_configuration" "example" {
               nohup busybox httpd -f -p ${var.server_port} &
               EOF
 
-  # Required when using a launch configuration with an auto scaling group.
-  # https://www.terraform.io/docs/providers/aws/r/launch_configuration.html
+
   lifecycle {
     create_before_destroy = true
   }
@@ -74,10 +73,10 @@ resource "aws_lb" "example" {
 
 resource "aws_lb_listener" "http" {
   load_balancer_arn = aws_lb.example.arn
-  port              = 80
+  port              = var.tcp
   protocol          = "HTTP"
 
-  # By default, return a simple 404 page
+
   default_action {
     type = "fixed-response"
 
@@ -130,8 +129,8 @@ resource "aws_security_group" "alb" {
 
   # Allow inbound HTTP requests
   ingress {
-    from_port   = 80
-    to_port     = 80
+    from_port   = var.tcp
+    to_port     = var.tcp
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }

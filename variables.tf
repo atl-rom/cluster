@@ -21,3 +21,10 @@ variable "alb_security_group_name" {
   type        = string
   default     = "terraform-example-alb"
 }
+
+
+variable "tcp" {
+  description = " "
+  type = number
+  default = 80
+}
