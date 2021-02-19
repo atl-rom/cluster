@@ -94,6 +94,43 @@ autoscaling_group_name = aws_autoscaling_group.example.name
 
 
 
+resource "aws_autoscaling_policy" "aspolicy" {
+  name                   = "a_scalingpolicy"
+  scaling_adjustment     = 4
+  adjustment_type        = "ChangeInCapacity"
+  cooldown               = 300
+  autoscaling_group_name = aws_autoscaling_group.example.name
+}
+
+resource "aws_cloudwatch_metric_alarm" "bat" {
+  alarm_name          = "terraform-alarm-test"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = "2"
+  metric_name         = "CPUUtilization"
+  namespace           = "AWS/EC2"
+  period              = "120"
+  statistic           = "Average"
+  threshold           = "80"
+
+  dimensions = {
+    AutoScalingGroupName = aws_autoscaling_group.example.name
+  }
+
+  alarm_description = "This metric monitors ec2 cpu utilization"
+  alarm_actions     = [aws_autoscaling_policy.aspolicy.arn]
+}
+
+
+
+
+
+resource "aws_shield_protection" "example" {
+  name         = "example"
+  resource_arn = "arn:aws:elasticloadbalancing:us-west-2:930289539424:loadbalancer/app/terraform-asg-example/d248ebbe945c1533"
+}
+
+
+
 resource "aws_security_group" "instance" {
   name = var.instance_security_group_name
 
