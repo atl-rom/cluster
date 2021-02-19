@@ -1,22 +1,35 @@
 
 provider "aws" {
-    region = "us-west-2"
+    region = var.server_region
     
     # access_key = "set on aws cli"
     # secret_key = " $ aws configure"
 }
 
 
-
+data "aws_ami" "ubuntu" { 
+most_recent = true 
+filter { 
+name = "name" 
+values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"] 
+} 
+filter { 
+name = "virtualization-type" 
+values = ["hvm"] 
+} 
+owners = ["099720109477"] # Canonical }
+}
 
 resource "aws_launch_configuration" "example" {
-  image_id        = "ami-07dd19a7900a1f049"
+  image_id        = data.aws_ami.ubuntu.id
   instance_type   = "t2.micro"
   security_groups = [aws_security_group.instance.id]
   user_data = "${data.template_file.user_data.rendered}"
   
 
-  #using input file as alternative isntead of inline user data
+  #using input file as alternative instead of inline user data
+  
+  
   # user_data =<<-EOF
   #             #!/bin/bash
   #              echo "Alo presidente" > index.html

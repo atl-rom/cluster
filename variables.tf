@@ -1,3 +1,11 @@
+variable "server_region" {
+  description = "Region to deploy server"
+  type        = string
+  default     = "us-west-2"
+}
+
+
+
 variable "server_port" {
   description = "The port the server will use for HTTP requests"
   type        = number
