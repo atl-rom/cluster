@@ -71,6 +71,29 @@ resource "aws_autoscaling_group" "example" {
   }
 }
 
+
+
+resource "aws_autoscaling_schedule" "scale_up" {
+scheduled_action_name = "business-hours"
+min_size = 2
+max_size = 10
+desired_capacity = 10
+recurrence = "0 8 * * *"
+autoscaling_group_name = aws_autoscaling_group.example.name
+}
+resource "aws_autoscaling_schedule" "scale_down" {
+scheduled_action_name = "night"
+min_size = 2
+max_size = 10
+desired_capacity = 2
+recurrence = "0 18 * * *"
+autoscaling_group_name = aws_autoscaling_group.example.name
+}
+
+
+
+
+
 resource "aws_security_group" "instance" {
   name = var.instance_security_group_name
 
