@@ -43,7 +43,7 @@ resource "aws_launch_configuration" "example" {
   }
 }
 data "template_file" "user_data" {
-    template = "${file("templates/user_data.tpl")}"
+    template = file("templates/user_data.tpl")
 }
 
 
@@ -157,7 +157,19 @@ resource "aws_lb" "example" {
   load_balancer_type = "application"
   subnets            = data.aws_subnet_ids.default.ids
   security_groups    = [aws_security_group.alb.id]
+
+
+
+  provisioner "local-exec" {
+    command = "echo ${aws_lb.example.arn} >> lb-arn.txt"
+    }
+
 }
+
+
+  
+
+
 
 resource "aws_lb_listener" "http" {
   load_balancer_arn = aws_lb.example.arn
