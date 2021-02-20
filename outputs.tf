@@ -5,5 +5,5 @@ output "alb_dns_name" {
 
 
 output "elb_arn" {
-  value = "${aws_lb.example.arn}"
+  value = aws_lb.example.arn
 }

@@ -24,7 +24,7 @@ resource "aws_launch_configuration" "example" {
   image_id        = data.aws_ami.ubuntu.id
   instance_type   = "t2.micro"
   security_groups = [aws_security_group.instance.id]
-  user_data = "${data.template_file.user_data.rendered}"
+  user_data = data.template_file.user_data.rendered
   
 
   #using input file as alternative instead of inline user data
@@ -126,7 +126,7 @@ resource "aws_cloudwatch_metric_alarm" "bat" {
 
 resource "aws_shield_protection" "example" {
   name         = "example"
-  resource_arn = "arn:aws:elasticloadbalancing:us-west-2:930289539424:loadbalancer/app/terraform-asg-example/d248ebbe945c1533"
+  resource_arn =  aws_lb.example.arn
 }
 
 
