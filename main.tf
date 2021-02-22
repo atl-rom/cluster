@@ -48,11 +48,11 @@ resource "aws_launch_configuration" "example" {
   #using input file as alternative instead of inline userd data #
   
   
-  # user_data =<<-EOF
-  #             #!/bin/bash
-  #              echo "Hello" > index.html
-  #              nohup busybox httpd -f -p ${var.server_port} &
-  #              EOF
+ user_data =<<-EOF
+               !/bin/bash
+                echo "Hello" > index.html
+                nohup busybox httpd -f -p ${var.server_port} &
+                EOF
 
 ####
 
@@ -60,9 +60,9 @@ resource "aws_launch_configuration" "example" {
     create_before_destroy = true
   }
 }
-data "template_file" "user_data" {
-    template = file("templates/user_data.tpl")
-}
+#data "template_file" "user_data" {
+#    template = file("templates/user_data.tpl")
+#}
 
 
 
