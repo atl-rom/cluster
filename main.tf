@@ -42,7 +42,7 @@ resource "aws_launch_configuration" "example" {
   image_id        = data.aws_ami.ubuntu.id
   instance_type   = "t2.micro"
   security_groups = [aws_security_group.instance.id]
-  user_data = data.template_file.user_data.rendered
+#user_data = data.template_file.user_data.rendered
   
 
   #using input file as alternative instead of inline userd data #
