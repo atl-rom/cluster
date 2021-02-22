@@ -23,8 +23,7 @@ terraform {
 provider "aws" {
     region = var.server_region
     
-    # access_key = "set on aws cli"
-    # secret_key = " $ aws configure"
+
 }
 
 
