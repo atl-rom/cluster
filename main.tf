@@ -47,7 +47,7 @@ resource "aws_launch_configuration" "example" {
   user_data = data.template_file.user_data.rendered
   
 
-  #using input file as alternative instead of inline user data
+  #using input file as alternative instead of inline userd data
   
   
   # user_data =<<-EOF
