@@ -42,17 +42,17 @@ resource "aws_launch_configuration" "example" {
   image_id        = data.aws_ami.ubuntu.id
   instance_type   = "t2.micro"
   security_groups = [aws_security_group.instance.id]
-#user_data = data.template_file.user_data.rendered
+  user_data = data.template_file.user_data.rendered
   
 
   #using input file as alternative instead of inline userd data  #
   
   
- user_data =<<-EOF
-               !/bin/bash
-                echo "Hello" > index.html
-                nohup busybox httpd -f -p ${var.server_port} &
-                EOF
+# user_data =<<-EOF
+#               !/bin/bash
+#                echo "Hello" > index.html
+#                nohup busybox httpd -f -p ${var.server_port} &
+#                EOF
 
 ####
 
@@ -60,9 +60,9 @@ resource "aws_launch_configuration" "example" {
     create_before_destroy = true
   }
 }
-#data "template_file" "user_data" {
-#    template = file("templates/user_data.tpl")
-#}
+data "template_file" "user_data" {
+    template = file("templates/user_data.tpl")
+}
 
 
 
@@ -141,11 +141,10 @@ resource "aws_cloudwatch_metric_alarm" "bat" {
 
 
 
-
-resource "aws_shield_protection" "example" {
-  name         = "example"
-  resource_arn =  aws_lb.example.arn
-}
+#resource "aws_shield_protection" "example" {
+# name         = "example"
+#  resource_arn =  aws_lb.example.arn
+#}
 
 
 
